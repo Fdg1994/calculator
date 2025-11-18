@@ -3,7 +3,8 @@ const operatorButtons = document.querySelectorAll('.btn-op');
 const equalsButton = document.getElementById('equals');
 const clearButton = document.getElementById('clear');
 const display = document.getElementById('display');
-let currentValue = '';
+
+let currentValue = "";
 let firstValue = null;
 let operator = null;
 let expressionDisplay = "";
@@ -28,6 +29,13 @@ function operate(a, b, callback) {
     return callback(a, b);
 }
 
+function getCallback(op) {
+    if (op === '+') return add;
+    if (op === '-') return subtract;
+    if (op === 'x') return multiply;
+    if (op === ':') return divide;
+}
+
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         const digit = button.textContent;
@@ -41,13 +49,25 @@ numberButtons.forEach(button => {
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        firstValue = Number(currentValue);
-        operator = button.textContent;
+        const newOperator = button.textContent;
 
-        expressionDisplay = firstValue + operator;
-        display.textContent = expressionDisplay;
+        if (firstValue !== null && currentValue !== "") {
+            const callback = getCallback(operator);
+            firstValue = operate(Number(firstValue), Number(currentValue), callback);
 
+            display.textContent = firstValue;
+        } else if (currentValue !== "") {
+            
+            firstValue = Number(currentValue);
+        }
+
+        operator = newOperator;
+
+        
         currentValue = "";
+
+        expressionDisplay = String(firstValue) + operator;
+        display.textContent = expressionDisplay;
     });
 });
 
@@ -56,8 +76,18 @@ clearButton.addEventListener('click', () => {
     display.textContent = '0';
 });
 
-clearButton.addEventListener('click', () => {
-    currentValue = '';
-    display.textContent = '0';
+equalsButton.addEventListener('click', () => {
+    const a = Number(firstValue);
+    const b = Number(currentValue);
+
+    const callback = getCallback(operator);
+    const result = operate(a, b, callback);
+
+    display.textContent = result;
+
+    firstValue = result;
+    currentValue = "";
+    operator = null;
+    expressionDisplay = String(result);
 });
 
