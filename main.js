@@ -94,8 +94,20 @@ equalsButton.addEventListener('click', () => {
     const a = Number(firstValue);
     const b = Number(currentValue);
 
+    if (operator === ":" && b === 0) {
+        display.textContent = "Can't divide by zero!";
+        
+        firstValue = null;
+        currentValue = "";
+        operator = null;
+        expressionDisplay = "";
+        justCalculated = false;
+        return; 
+    }
+
     const callback = getCallback(operator);
     const result = operate(a, b, callback);
+
 
     display.textContent = result;
 
