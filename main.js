@@ -4,6 +4,9 @@ const equalsButton = document.getElementById('equals');
 const clearButton = document.getElementById('clear');
 const display = document.getElementById('display');
 let currentValue = '';
+let firstValue = null;
+let operator = null;
+let expressionDisplay = "";
 
 function add(a, b) {
     return a + b;
@@ -27,19 +30,34 @@ function operate(a, b, callback) {
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
-        currentValue += button.textContent;   
-        display.textContent = currentValue;
+        const digit = button.textContent;
+
+        currentValue += digit;
+        expressionDisplay += digit;
+
+        display.textContent = expressionDisplay;
     });
 });
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        currentValue += button.textContent;   
-        display.textContent = currentValue;
+        firstValue = Number(currentValue);
+        operator = button.textContent;
+
+        expressionDisplay = firstValue + operator;
+        display.textContent = expressionDisplay;
+
+        currentValue = "";
     });
 });
 
 clearButton.addEventListener('click', () => {
-  currentValue = '';
-  display.textContent = '0';
+    currentValue = '';
+    display.textContent = '0';
 });
+
+clearButton.addEventListener('click', () => {
+    currentValue = '';
+    display.textContent = '0';
+});
+
