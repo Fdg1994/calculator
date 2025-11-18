@@ -38,3 +38,8 @@ operatorButtons.forEach(button => {
         display.textContent = currentValue;
     });
 });
+
+clearButton.addEventListener('click', () => {
+  currentValue = '';
+  display.textContent = '0';
+});
