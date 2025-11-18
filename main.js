@@ -8,6 +8,7 @@ let currentValue = "";
 let firstValue = null;
 let operator = null;
 let expressionDisplay = "";
+let justCalculated = false;
 
 function add(a, b) {
     return a + b;
@@ -40,8 +41,14 @@ numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         const digit = button.textContent;
 
-        currentValue += digit;
-        expressionDisplay += digit;
+        if (justCalculated) {
+            currentValue = digit;
+            expressionDisplay = digit;
+            justCalculated = false;
+        } else {
+            currentValue += digit;
+            expressionDisplay += digit;
+        }
 
         display.textContent = expressionDisplay;
     });
@@ -51,19 +58,22 @@ operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
         const newOperator = button.textContent;
 
+
+        if (justCalculated) {
+            currentValue = "";
+            justCalculated = false;
+        }
+
         if (firstValue !== null && currentValue !== "") {
             const callback = getCallback(operator);
             firstValue = operate(Number(firstValue), Number(currentValue), callback);
-
             display.textContent = firstValue;
         } else if (currentValue !== "") {
-            
             firstValue = Number(currentValue);
         }
 
         operator = newOperator;
 
-        
         currentValue = "";
 
         expressionDisplay = String(firstValue) + operator;
@@ -72,8 +82,12 @@ operatorButtons.forEach(button => {
 });
 
 clearButton.addEventListener('click', () => {
-    currentValue = '';
-    display.textContent = '0';
+    currentValue = "";
+    firstValue = null;
+    operator = null;
+    expressionDisplay = "";
+    justCalculated = false;
+    display.textContent = "0";
 });
 
 equalsButton.addEventListener('click', () => {
@@ -89,5 +103,7 @@ equalsButton.addEventListener('click', () => {
     currentValue = "";
     operator = null;
     expressionDisplay = String(result);
+
+    justCalculated = true;
 });
 
