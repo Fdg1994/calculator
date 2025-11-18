@@ -2,15 +2,8 @@ const numberButtons = document.querySelectorAll('.btn-num');
 const operatorButtons = document.querySelectorAll('.btn-op');
 const equalsButton = document.getElementById('equals');
 const clearButton = document.getElementById('clear');
-const display = 0;
-
-function getInput() {
-
-};
-
-function updateDisplay() {
-
-};
+const display = document.getElementById('display');
+let currentValue = '';
 
 function add(a, b) {
     return a + b;
@@ -33,7 +26,8 @@ function operate(a, b, callback) {
 }
 
 numberButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    console.log("Number clicked:", button.textContent);
-  });
+    button.addEventListener('click', () => {
+        currentValue += button.textContent;   
+        display.textContent = currentValue;
+    });
 });
