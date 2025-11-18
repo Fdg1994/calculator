@@ -43,6 +43,8 @@ numberButtons.forEach(button => {
 
         if (justCalculated) {
             currentValue = digit;
+            firstValue = null;
+            operator = null;
             expressionDisplay = digit;
             justCalculated = false;
         } else {
@@ -96,7 +98,7 @@ equalsButton.addEventListener('click', () => {
 
     if (operator === ":" && b === 0) {
         display.textContent = "Can't divide by zero!";
-        
+
         firstValue = null;
         currentValue = "";
         operator = null;
