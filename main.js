@@ -31,3 +31,10 @@ numberButtons.forEach(button => {
         display.textContent = currentValue;
     });
 });
+
+operatorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        currentValue += button.textContent;   
+        display.textContent = currentValue;
+    });
+});
